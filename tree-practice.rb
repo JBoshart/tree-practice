@@ -40,22 +40,20 @@ def non_operators(node)
   non_operators(node.right)
 end
 
-# Method to return the number of leaves. Not working.
-# def leaves(node)
-#   tally = 0
-#   return if node.nil?
-#
-#   leaves(node.left)
-#   if node.left.nil? || node.right.nil?
-#     tally += 1
-#   end
-#
-#   leaves(node.right)
-#
-#   if node.right.nil?
-#     return tally
-#   end
-# end
+# Method to return the number of leaves.
+def leaves(node)
+  return 1 if /\d+/.match(node.value)
+  return (leaves(node.left) + leaves(node.right))
+end
+
+# Method to return number of operators. Not currently working.
+def ops(node)
+  if node.left.nil? || node.right.nil?
+    return 1 if /[\+\-\*\%\/\.]/.match(node.value)
+  else
+    return (ops(node.left) + ops(node.right))
+  end
+end
 
 
 # Start at root node, print root node
@@ -101,66 +99,66 @@ end
 
 
 #### IN CLASS TEST CASES ####
-root = TreeNode.new("+")
-root.left = TreeNode.new("3")
-root.right = TreeNode.new("2")
-print_infix(root)
-puts "\n"
-operators(root)
-puts "\n"
-non_operators(root)
-puts "\n"
-print_prefix(root)
-puts "\n"
-print_postfix(root)
-puts "\n"
-operator_found(root, "+")
-operator_found(root, "-")
-
-puts "\n"
-puts "\n"
-
-new_root = TreeNode.new("+")
-new_root.left = TreeNode.new("3")
-new_root.right = TreeNode.new("-")
-new_root.right.left = TreeNode.new("2")
-new_root.right.right = TreeNode.new("10")
-print_infix(new_root)
-puts "\n"
-operators(new_root)
-puts "\n"
-non_operators(new_root)
-puts "\n"
-print_prefix(new_root)
-puts "\n"
-print_postfix(new_root)
-puts "\n"
-operator_found(new_root, "+")
-operator_found(new_root, "-")
-
-puts "\n"
-puts "\n"
-
-newer_root = TreeNode.new("+")
-newer_root.left = TreeNode.new("*")
-newer_root.left.left = TreeNode.new("4")
-newer_root.left.right = TreeNode.new("3")
-newer_root.right = TreeNode.new("2")
-print_infix(newer_root)
-puts "\n"
-operators(newer_root)
-puts "\n"
-non_operators(newer_root)
-puts "\n"
-print_prefix(newer_root)
-puts "\n"
-print_postfix(newer_root)
-puts "\n"
-operator_found(newer_root, "+")
-operator_found(newer_root, "-")
-
-puts "\n"
-puts "\n"
+# root = TreeNode.new("+")
+# root.left = TreeNode.new("3")
+# root.right = TreeNode.new("2")
+# print_infix(root)
+# puts "\n"
+# operators(root)
+# puts "\n"
+# non_operators(root)
+# puts "\n"
+# print_prefix(root)
+# puts "\n"
+# print_postfix(root)
+# puts "\n"
+# operator_found(root, "+")
+# operator_found(root, "-")
+#
+# puts "\n"
+# puts "\n"
+#
+# new_root = TreeNode.new("+")
+# new_root.left = TreeNode.new("3")
+# new_root.right = TreeNode.new("-")
+# new_root.right.left = TreeNode.new("2")
+# new_root.right.right = TreeNode.new("10")
+# print_infix(new_root)
+# puts "\n"
+# operators(new_root)
+# puts "\n"
+# non_operators(new_root)
+# puts "\n"
+# print_prefix(new_root)
+# puts "\n"
+# print_postfix(new_root)
+# puts "\n"
+# operator_found(new_root, "+")
+# operator_found(new_root, "-")
+#
+# puts "\n"
+# puts "\n"
+#
+# newer_root = TreeNode.new("+")
+# newer_root.left = TreeNode.new("*")
+# newer_root.left.left = TreeNode.new("4")
+# newer_root.left.right = TreeNode.new("3")
+# newer_root.right = TreeNode.new("2")
+# print_infix(newer_root)
+# puts "\n"
+# operators(newer_root)
+# puts "\n"
+# non_operators(newer_root)
+# puts "\n"
+# print_prefix(newer_root)
+# puts "\n"
+# print_postfix(newer_root)
+# puts "\n"
+# operator_found(newer_root, "+")
+# operator_found(newer_root, "-")
+#
+# puts "\n"
+# puts "\n"
 
 newest_root = TreeNode.new("-")
 newest_root.left = TreeNode.new("+")
@@ -183,68 +181,71 @@ print_postfix(newest_root)
 puts "\n"
 operator_found(newest_root, "+")
 operator_found(newest_root, "-")
+puts "\n"
+puts leaves(newest_root)
+puts ops(newest_root)
 
 puts "\n"
 puts "\n"
 
 ### ADDITIONAL TEST CASES ###
 # 7 + 9
-test1 = TreeNode.new("+")
-test1.left = TreeNode.new("7")
-test1.right = TreeNode.new("9")
-print_prefix(test1)
-puts "\n"
-print_infix(test1)
-puts "\n"
-print_postfix(test1)
-puts "\n"
-operators(test1)
-puts "\n"
-non_operators(test1)
-puts "\n"
-operator_found(test1, "+")
-operator_found(test1, "-")
-
-puts "\n\n"
-
-# 4 * 12 / 3
-# ((4 * 12) / 3)
-test2 = TreeNode.new("/")
-test2.left = TreeNode.new("*")
-test2.left.left = TreeNode.new("4")
-test2.left.right = TreeNode.new("12")
-test2.right = TreeNode.new("3")
-print_prefix(test2)
-puts "\n"
-print_infix(test2)
-puts "\n"
-print_postfix(test2)
-puts "\n"
-operators(test2)
-puts "\n"
-non_operators(test2)
-puts "\n"
-operator_found(test2, "+")
-operator_found(test2, "*")
-
-puts "\n\n"
-
-# 7 - 8 * 2
-# 7 - (8 * 2)
-test3 = TreeNode.new("-")
-test3.left = TreeNode.new("7")
-test3.right = TreeNode.new("*")
-test3.right.left = TreeNode.new("8")
-test3.right.right = TreeNode.new("2")
-print_prefix(test3)
-puts "\n"
-print_infix(test3)
-puts "\n"
-print_postfix(test3)
-puts "\n"
-operators(test3)
-puts "\n"
-non_operators(test3)
-puts "\n"
-operator_found(test3, "+")
-operator_found(test3, "-")
+# test1 = TreeNode.new("+")
+# test1.left = TreeNode.new("7")
+# test1.right = TreeNode.new("9")
+# print_prefix(test1)
+# puts "\n"
+# print_infix(test1)
+# puts "\n"
+# print_postfix(test1)
+# puts "\n"
+# operators(test1)
+# puts "\n"
+# non_operators(test1)
+# puts "\n"
+# operator_found(test1, "+")
+# operator_found(test1, "-")
+#
+# puts "\n\n"
+#
+# # 4 * 12 / 3
+# # ((4 * 12) / 3)
+# test2 = TreeNode.new("/")
+# test2.left = TreeNode.new("*")
+# test2.left.left = TreeNode.new("4")
+# test2.left.right = TreeNode.new("12")
+# test2.right = TreeNode.new("3")
+# print_prefix(test2)
+# puts "\n"
+# print_infix(test2)
+# puts "\n"
+# print_postfix(test2)
+# puts "\n"
+# operators(test2)
+# puts "\n"
+# non_operators(test2)
+# puts "\n"
+# operator_found(test2, "+")
+# operator_found(test2, "*")
+#
+# puts "\n\n"
+#
+# # 7 - 8 * 2
+# # 7 - (8 * 2)
+# test3 = TreeNode.new("-")
+# test3.left = TreeNode.new("7")
+# test3.right = TreeNode.new("*")
+# test3.right.left = TreeNode.new("8")
+# test3.right.right = TreeNode.new("2")
+# print_prefix(test3)
+# puts "\n"
+# print_infix(test3)
+# puts "\n"
+# print_postfix(test3)
+# puts "\n"
+# operators(test3)
+# puts "\n"
+# non_operators(test3)
+# puts "\n"
+# operator_found(test3, "+")
+# operator_found(test3, "-")
